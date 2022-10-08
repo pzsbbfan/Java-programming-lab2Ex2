@@ -1,18 +1,24 @@
 import javax.swing.*;
-import java.awt.*;
-import java.util.Arrays;
 import java.util.Random;
-import java.util.stream.IntStream;
 
 public class Lotto {
-    private int[] randomInt = new int[3];
+    private int[] randomInt;
 
     //constructor to populate an array for Lotto
     public Lotto(){
         Random random = new Random();
+        randomInt = new int[3];
         for (int i =0; i<3;i++){
             randomInt[i] = random.nextInt(1,10);
         }
+    }
+    public int[] newLottoNumber(){
+        Random random = new Random();
+        randomInt = new int[3];
+        for (int i =0; i<3;i++){
+            randomInt[i] = random.nextInt(1,10);
+        }
+        return randomInt;
     }
 
     // get user input and validate input type and values
@@ -43,24 +49,36 @@ public class Lotto {
         int winNumber = 0;
         boolean win = false;
 
-        // get the winning number from adding all elements in the array
-        for (int j=0;j<randomInt.length;j++){
-            winNumber += randomInt[j];
-        }
+
 
         //loop 5 times
         for (int i =0; i<5;i++){
+            // get the winning number from adding all elements in the array
+            for (int j=0;j<randomInt.length;j++) {
+                winNumber += randomInt[j];
+            }
             //win condition
             if (userGuess == winNumber) {
                 win = true;
                 break;
             }
+            else
+            {
+                for (int num:randomInt)
+                {
+                    System.out.println("Elements in array: " + num);
+                }
+                System.out.println("your input:" + userGuess + " win number: " + winNumber);
+
+                //populate another instance of lotto array
+                newLottoNumber();
+                winNumber = 0;
+            }
+
+
+
         }
-        for (int num:randomInt)
-        {
-            System.out.println("Elements in array: " + num);
-        }
-        System.out.println("your input:" + userGuess + " win number: " + winNumber);
+
         return win;
 
     }
